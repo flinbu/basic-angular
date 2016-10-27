@@ -1,0 +1,67 @@
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+  @return $number;
+}
+
+@mixin font-size($pixels) {
+  $font-size: strip-unit($pixels) / 10;
+  font-size: $pixels;
+  font-size: $font-size * 1rem;
+}
+
+@mixin border-radius($radius) {
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin box-shadow($shadow) {
+  -moz-box-shadow: $shadow;
+  -webkit-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+
+@mixin scale($scale) {
+  @include transform(scale($scale));
+}
+
+@mixin translate3d($x, $y, $z) {
+  @include transform(translate3d($x, $y, $z));
+}
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+
+  //IE8 filter
+  $opacity-ie: ($opacity * 100);
+  filter: alpha(opacity=$opacity-ie);
+}
+
+@mixin bg-colors($prefix) {
+  $colors: ("white" : $white, "black" : $black, "grey-lighter" : $grey-lighter, "grey-light" : $grey-light, "grey" : $grey, "grey-dark" : $grey-dark, "grey-darker" : $grey-darker, "red" : $red, "yellow" : $yellow, "green" : $green, "restaurant" : $restaurant, "events" : $events, "movies" : $movies, "bar-disco" : $bar-disco);
+
+  @each $name, $color in $colors {
+    &.#{$prefix}-bg-color-#{$name} {
+      background-color: $color;
+    }
+  }
+}
+@mixin text-colors($prefix) {
+  $colors: ("white" : $white, "black" : $black, "grey-lighter" : $grey-lighter, "grey-light" : $grey-light, "grey" : $grey, "grey-dark" : $grey-dark, "grey-darker" : $grey-darker, "red" : $red, "yellow" : $yellow, "green" : $green, "restaurant" : $restaurant, "events" : $events, "movies" : $movies, "bar-disco" : $bar-disco);
+
+  @each $name, $color in $colors {
+    &.#{$prefix}-text-color-#{$name} {
+      color: $color;
+    }
+  }
+}
+@mixin networks-colors($property : 'color') {
+  $colors: ("facebook" : $bc-facebook, "twitter" : $bc-twitter, "instagram" : $bc-instagram, "google" : $bc-google-plus, "snapchat" : $bc-snapchat, "whatsapp" : $bc-whatsapp);
+  @each $name, $color in $colors {
+    &.#{$name}{
+      #{$property}: $color;
+    }
+  }
+}
